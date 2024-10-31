@@ -25,6 +25,8 @@ public class Interact_Dialogue : MonoBehaviour
     {
         prerequisites = GetComponent<Interact_Prerequisites>();
         properties = GetComponent<Interact_Properties>();
+
+        DialogueVFX.SetActive(false);
     }
 
 
@@ -49,6 +51,7 @@ public class Interact_Dialogue : MonoBehaviour
     private void SystemLogicStart()
     {
         GameStateHandler.Instance.dialogueActive = true;
+        DialogueVFX.SetActive(true);
 
         if (!isTyping)
         {
@@ -94,9 +97,9 @@ public class Interact_Dialogue : MonoBehaviour
 
     private void EndDialogue()
     {
+        DialogueVFX.SetActive(false);
+        properties.HasBeenInteracted = true;
 
-        properties.HasBeenInteracted = true;
-        properties.HasBeenInteracted = true;
         GameStateHandler.Instance.dialogueActive = false;
 
     }
