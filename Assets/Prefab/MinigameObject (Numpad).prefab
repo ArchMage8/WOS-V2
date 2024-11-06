@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correctCode: 1234
   displayText: {fileID: 2841148137628655788}
-  interact_Properties: {fileID: 0}
+  interact_Properties: {fileID: 2841148139169284393}
 --- !u!1 &2841148137233675432
 GameObject:
   m_ObjectHideFlags: 0

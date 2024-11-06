@@ -264,6 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3865116543506871404}
   - component: {fileID: 3865116543506871405}
+  - component: {fileID: 5463987960446559988}
   m_Layer: 0
   m_Name: CompleteButton
   m_TagString: Untagged
@@ -299,6 +300,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   padlock_Main: {fileID: 3865116544976346142}
+--- !u!61 &5463987960446559988
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3865116543506871407}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &3865116543557791763
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,7 +1006,7 @@ MonoBehaviour:
   typingSpeed: 0.05
   dialogueText: {fileID: 0}
   DialogueVFX: {fileID: 0}
-  minigame: {fileID: 0}
+  minigame: {fileID: 3865116544976346136}
 --- !u!114 &3865116544036170678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1641,7 +1668,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e287d32dc93e1c4e905d27ce39aff2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  padlockChildren: []
+  padlockChildren:
+  - {fileID: 3865116543168328006}
+  - {fileID: 3865116543557791761}
+  - {fileID: 3865116543305106284}
+  - {fileID: 3865116542993246321}
   CanContinue: 0
   interactProperties: {fileID: 3865116544036170678}
 --- !u!1 &3865116545040364382

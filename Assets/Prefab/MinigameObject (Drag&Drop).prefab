@@ -67,7 +67,7 @@ MonoBehaviour:
   typingSpeed: 0.05
   dialogueText: {fileID: 0}
   DialogueVFX: {fileID: 0}
-  minigame: {fileID: 0}
+  minigame: {fileID: 7649606113838906489}
 --- !u!114 &7649606113100604680
 MonoBehaviour:
   m_ObjectHideFlags: 0
