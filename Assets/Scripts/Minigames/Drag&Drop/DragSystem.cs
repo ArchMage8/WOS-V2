@@ -5,6 +5,7 @@ public class DragSystem : MonoBehaviour
     public GameObject[] draggableObjects;
 
     public GameObject targetObject;
+    public Interact_Properties interact_properties;
 
     private BoxCollider2D dragBounds;
     private GameObject currentlyDragging;
@@ -79,6 +80,8 @@ public class DragSystem : MonoBehaviour
         {
             if (obj != targetObject)
             {
+                interact_properties.HasBeenInteracted = true; 
+                
                 SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>();
                 if (renderer != null)
                 {

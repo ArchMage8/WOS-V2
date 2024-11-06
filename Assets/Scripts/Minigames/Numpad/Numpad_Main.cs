@@ -40,6 +40,11 @@ public class Numpad_Main : MonoBehaviour
         }
     }
 
+    public void ClearCode()
+    {
+        IncorrectCodeEntered();
+    }
+
     private void UpdateDisplay()
     {
         displayText.text = currentCode;
