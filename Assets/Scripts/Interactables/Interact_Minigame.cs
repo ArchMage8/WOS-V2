@@ -13,6 +13,7 @@ public class Interact_Minigame : MonoBehaviour
     [Header("UI References")]
     public TextMeshProUGUI dialogueText;
     public GameObject DialogueVFX;
+    [Space(16)]
     public GameObject minigame;
 
     private int dialogueIndex = 0;
