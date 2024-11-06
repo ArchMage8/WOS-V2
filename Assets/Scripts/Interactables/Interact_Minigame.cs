@@ -135,10 +135,11 @@ public class Interact_Minigame : MonoBehaviour
         }
     }
 
-    private void EndDialogue()
+    public void EndDialogue()
     {
         DialogueVFX.SetActive(false);
         isDialogueActive = false;
+        dialogueIndex = 0;
         GameStateHandler.Instance.dialogueActive = false;
         EnableMinigameLogic();
     }

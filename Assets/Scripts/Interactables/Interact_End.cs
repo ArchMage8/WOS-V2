@@ -1,8 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
-public class Interact_Dialogue : MonoBehaviour
+public class Interact_End : MonoBehaviour
 {
     [Header("Dialogue Settings")]
     [TextArea] public string[] dialogueArray;
@@ -14,6 +15,8 @@ public class Interact_Dialogue : MonoBehaviour
 
     [Header("Typing Settings")]
     public float typingSpeed = 0.05f;
+
+    public int DestinationScene;
 
     private int dialogueIndex = 0;
     private bool isTyping = false;
@@ -95,11 +98,13 @@ public class Interact_Dialogue : MonoBehaviour
         return color;
     }
 
-    public void EndDialogue()
+    private void EndDialogue()
     {
         DialogueVFX.SetActive(false);
         properties.HasBeenInteracted = true;
-        dialogueIndex = 0;
+
+        SceneManager.LoadScene(DestinationScene);
+
         GameStateHandler.Instance.dialogueActive = false;
 
     }
