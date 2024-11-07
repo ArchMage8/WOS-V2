@@ -34,7 +34,7 @@ public class Interact_Properties : MonoBehaviour
         {
             // If prerequisite exists, show Default sprite initially
             SetupSprite();
-            Default.SetActive(false);
+            Default.SetActive(true);
         }
     }
 
