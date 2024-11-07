@@ -27,12 +27,14 @@ public class Interact_Properties : MonoBehaviour
         if (prerequisiteScript == null)
         {
             // If no prerequisite, show NotInteractedSprite
-            EnableSprite(NotInteractedSprite);
+            SetupSprite();
+            NotInteractedSprite.SetActive(true);
         }
         else
         {
             // If prerequisite exists, show Default sprite initially
-            EnableSprite(Default);
+            SetupSprite();
+            Default.SetActive(false);
         }
     }
 
@@ -41,12 +43,14 @@ public class Interact_Properties : MonoBehaviour
         // Check if prerequisites are met and update sprite
         if (prerequisiteScript != null && prerequisiteScript.PrerequisitesMet)
         {
-            EnableSprite(NotInteractedSprite);
+            SetupSprite();
+            NotInteractedSprite.SetActive(true);
         }
 
         if (HasBeenInteracted == true)
         {
-            EnableSprite(InteractedSprite);
+            SetupSprite();
+            InteractedSprite.SetActive(true);
         }
 
         if(Default.activeSelf == true)
@@ -59,17 +63,12 @@ public class Interact_Properties : MonoBehaviour
         }
     }
 
-    private void EnableSprite(GameObject spriteToEnable)
+    private void SetupSprite()
     {
         // Disable all sprites
         NotInteractedSprite.SetActive(false);
         InteractedSprite.SetActive(false);
         Default.SetActive(false);
 
-        // Enable the specified sprite
-        if (spriteToEnable != null)
-        {
-            spriteToEnable.SetActive(true);
-        }
     }
 }

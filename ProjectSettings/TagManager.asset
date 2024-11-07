@@ -50,3 +50,9 @@ TagManager:
   - name: Foreground
     uniqueID: 1974751513
     locked: 0
+  - name: Popups
+    uniqueID: 4022158725
+    locked: 0
+  - name: Dialogue
+    uniqueID: 2741747217
+    locked: 0
