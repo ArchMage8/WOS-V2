@@ -59,6 +59,7 @@ public class Numpad_Main : MonoBehaviour
     private void CorrectCodeEntered()
     {
 
+        GameStateHandler.Instance.minigameActive = false;
         interact_Properties.HasBeenInteracted = true;
             
         // Logic for correct code entry (keep empty for now)

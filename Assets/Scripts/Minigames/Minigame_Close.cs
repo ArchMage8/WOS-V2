@@ -25,5 +25,7 @@ public class Minigame_Close : MonoBehaviour
         canClose = true;
         TargetMinigame.SetActive(false);
 
+        GameStateHandler.Instance.minigameActive = false;
+
     }
 }

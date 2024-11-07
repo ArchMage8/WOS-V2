@@ -9,6 +9,7 @@ public class Padlock_Main : MonoBehaviour
     
     [HideInInspector]public bool CanContinue = false;
     public Interact_Properties interactProperties;
+    private bool completed = false;
 
     private void Update()
     {
@@ -31,13 +32,15 @@ public class Padlock_Main : MonoBehaviour
 
     public void OpenPadlock()
     {
-        if (CanContinue)
+        if (CanContinue && !completed)
         {
+            GameStateHandler.Instance.minigameActive = false;
             interactProperties.HasBeenInteracted = true;
+            completed = true;
             
             //Enter the event whats supposed to happen here:
             // Play Sound
-            // Animate Down
+            
         }
     }
 }
