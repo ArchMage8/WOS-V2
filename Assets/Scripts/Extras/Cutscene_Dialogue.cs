@@ -3,11 +3,12 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class Interact_End : MonoBehaviour
+public class Cutscene_Dialogue : MonoBehaviour
 {
     [Header("Dialogue Settings")]
     [TextArea] public string[] dialogueArray;
     public string[] colorHexArray;
+    public int TargetScene;
 
     [Header("UI/UX Reference")]
     public TextMeshProUGUI dialogueText;
@@ -16,44 +17,18 @@ public class Interact_End : MonoBehaviour
     [Header("Typing Settings")]
     public float typingSpeed = 0.05f;
 
-    public int DestinationScene;
-
     private int dialogueIndex = 0;
     private bool isTyping = false;
 
-    private Interact_Prerequisites prerequisites;
-    private Interact_Properties properties;
-
-    private void Start()
+    private void Awake()
     {
-        prerequisites = GetComponent<Interact_Prerequisites>();
-        properties = GetComponent<Interact_Properties>();
-
         DialogueVFX.SetActive(false);
+        StartCutsceneDialogue();
     }
 
-
-    private void OnMouseDown()
+    private void StartCutsceneDialogue()
     {
-        if (!GameStateHandler.Instance.dialogueActive && !GameStateHandler.Instance.minigameActive)
-        {
-            if (prerequisites == null)
-            {
-                SystemLogicStart();
-            }
-            else
-            {
-                if (prerequisites.PrerequisitesMet == true)
-                {
-                    SystemLogicStart();
-                }
-            }
-        }
-    }
-
-    private void SystemLogicStart()
-    {
-        GameStateHandler.Instance.dialogueActive = true;
+      
         DialogueVFX.SetActive(true);
 
         if (!isTyping)
@@ -89,6 +64,16 @@ public class Interact_End : MonoBehaviour
 
         isTyping = false;
         dialogueIndex++;
+
+        // Start next line if there are more lines to show
+        if (dialogueIndex < dialogueArray.Length)
+        {
+            StartCoroutine(TypeDialogue(dialogueArray[dialogueIndex], colorHexArray[dialogueIndex]));
+        }
+        else
+        {
+            EndDialogue();
+        }
     }
 
     private Color HexToColor(string hex)
@@ -101,12 +86,8 @@ public class Interact_End : MonoBehaviour
     private void EndDialogue()
     {
         DialogueVFX.SetActive(false);
-        properties.HasBeenInteracted = true;
-
         StartCoroutine(EndSceneLogic());
-
-        GameStateHandler.Instance.dialogueActive = false;
-
+        dialogueIndex = 0;
     }
 
     public Animator FadeAnimator;
@@ -115,6 +96,6 @@ public class Interact_End : MonoBehaviour
     {
         FadeAnimator.SetTrigger("EndScene");
         yield return new WaitForSeconds(1.1f);
-        SceneManager.LoadScene(DestinationScene);
+        SceneManager.LoadScene(TargetScene);
     }
 }
