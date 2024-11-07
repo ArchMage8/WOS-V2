@@ -29,6 +29,11 @@ public class DragSystem : MonoBehaviour
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currentlyDragging = GetDraggableUnderMouse(mousePos);
 
+            if(targetObject == null)
+            {
+                interact_properties.HasBeenInteracted = true;
+            }
+
             if (currentlyDragging != null)
             {
                 dragOffset = currentlyDragging.transform.position - (Vector3)mousePos;
@@ -76,18 +81,22 @@ public class DragSystem : MonoBehaviour
 
     private void SetAllDraggableObjectsTransparent()
     {
-        foreach (GameObject obj in draggableObjects)
+        if (targetObject != null)
         {
-            if (obj != targetObject)
+
+            foreach (GameObject obj in draggableObjects)
             {
-                interact_properties.HasBeenInteracted = true; 
-                
-                SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>();
-                if (renderer != null)
+                if (obj != targetObject)
                 {
-                    Color transparentColor = renderer.color;
-                    transparentColor.a = 0.5f;
-                    renderer.color = transparentColor;
+                    interact_properties.HasBeenInteracted = true;
+
+                    SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>();
+                    if (renderer != null)
+                    {
+                        Color transparentColor = renderer.color;
+                        transparentColor.a = 0.5f;
+                        renderer.color = transparentColor;
+                    }
                 }
             }
         }
