@@ -2281,7 +2281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 878549537327922250, guid: fe2327e102f74f040bb03c092bbcb721, type: 3}
       propertyPath: dialogueArray.Array.data[0]
-      value: Lorem Ipsum
+      value: Apples
       objectReference: {fileID: 0}
     - target: {fileID: 878549537327922250, guid: fe2327e102f74f040bb03c092bbcb721, type: 3}
       propertyPath: dialogueArray.Array.data[1]

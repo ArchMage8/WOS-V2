@@ -18,6 +18,8 @@ public class Interact_Minigame : MonoBehaviour
 
     private int dialogueIndex = 0;
     private bool isTyping = false;
+    private bool lineFullyDisplayed = false;
+    private bool dialogueInitialized = false;
     private bool isDialogueActive = false;
 
     private Interact_Prerequisites prerequisites;
@@ -33,39 +35,45 @@ public class Interact_Minigame : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!GameStateHandler.Instance.dialogueActive && !GameStateHandler.Instance.minigameActive)
+        if (!GameStateHandler.Instance.dialogueActive && !GameStateHandler.Instance.minigameActive && !dialogueInitialized)
         {
-            if (prerequisites == null)
+            if (prerequisites == null || prerequisites.PrerequisitesMet)
             {
                 SystemLogicStart();
             }
-            else
+        }
+    }
+
+    private void Update()
+    {
+        if (isDialogueActive && Input.GetMouseButtonDown(0))
+        {
+            if (lineFullyDisplayed)
             {
-                if (prerequisites.PrerequisitesMet == true)
-                {
-                    SystemLogicStart();
-                }
+                ShowNextDialogueLine();
+            }
+            else if (isTyping)
+            {
+                StopAllCoroutines();
+                dialogueText.text = dialogueArray[dialogueIndex];
+                lineFullyDisplayed = true;
+                isTyping = false;
             }
         }
     }
 
     private void SystemLogicStart()
     {
-        // Enable minigame
         minigame.SetActive(true);
         DialogueVFX.SetActive(true);
-
         GameStateHandler.Instance.dialogueActive = true;
 
-
-        // Show dialogue if YesDialogue is true
         if (YesDialogue)
         {
             StartDialogue();
         }
         else
         {
-            // Skip dialogue and directly enable minigame
             EnableMinigameLogic();
         }
     }
@@ -82,10 +90,10 @@ public class Interact_Minigame : MonoBehaviour
         if (dialogueIndex < dialogueArray.Length)
         {
             StartCoroutine(TypeDialogue(dialogueArray[dialogueIndex], colorHexArray[dialogueIndex]));
+            dialogueIndex++;
         }
         else
         {
-            // Dialogue finished
             EndDialogue();
         }
     }
@@ -93,6 +101,7 @@ public class Interact_Minigame : MonoBehaviour
     private IEnumerator TypeDialogue(string dialogue, string colorHex)
     {
         isTyping = true;
+        lineFullyDisplayed = false;
         dialogueText.text = "";
         dialogueText.color = HexToColor(colorHex);
 
@@ -102,8 +111,9 @@ public class Interact_Minigame : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
 
+        dialogueInitialized = true;
         isTyping = false;
-        dialogueIndex++;
+        lineFullyDisplayed = true;
     }
 
     private Color HexToColor(string hex)
@@ -113,33 +123,10 @@ public class Interact_Minigame : MonoBehaviour
         return color;
     }
 
-    private void Update()
-    {
-        Debug.LogWarning("You need to turn off minigame state in the actual minigame");
-
-        // Allow skipping text or advancing dialogue on click
-        if (isDialogueActive && Input.GetMouseButtonDown(0))
-        {
-            if (isTyping)
-            {
-                // Skip to the full line if still typing
-                StopAllCoroutines();
-                dialogueText.text = dialogueArray[dialogueIndex];
-                isTyping = false;
-            }
-            else
-            {
-                // Show next line if not typing
-                ShowNextDialogueLine();
-            }
-        }
-    }
-
     public void EndDialogue()
     {
         DialogueVFX.SetActive(false);
         isDialogueActive = false;
-        dialogueIndex = 0;
         GameStateHandler.Instance.dialogueActive = false;
         EnableMinigameLogic();
     }

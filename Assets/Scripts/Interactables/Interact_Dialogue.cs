@@ -17,6 +17,8 @@ public class Interact_Dialogue : MonoBehaviour
 
     private int dialogueIndex = 0;
     private bool isTyping = false;
+    private bool lineFullyDisplayed = false;
+    private bool dialogueInitialized = false;
 
     private Interact_Prerequisites prerequisites;
     private Interact_Properties properties;
@@ -25,25 +27,38 @@ public class Interact_Dialogue : MonoBehaviour
     {
         prerequisites = GetComponent<Interact_Prerequisites>();
         properties = GetComponent<Interact_Properties>();
-
         DialogueVFX.SetActive(false);
     }
 
-
     private void OnMouseDown()
     {
-        if (!GameStateHandler.Instance.dialogueActive && !GameStateHandler.Instance.minigameActive)
+        if (!GameStateHandler.Instance.dialogueActive && !GameStateHandler.Instance.minigameActive && !dialogueInitialized)
         {
-            if (prerequisites == null)
+            // Initialize dialogue on the first click of the trigger object
+            if (prerequisites == null || prerequisites.PrerequisitesMet)
             {
+                
                 SystemLogicStart();
             }
-            else
+        }
+    }
+
+    private void Update()
+    {
+        // Listen for any click on the screen once the dialogue is active
+        if (dialogueInitialized && Input.GetMouseButtonDown(0))
+        {
+            if (lineFullyDisplayed)
             {
-                if (prerequisites.PrerequisitesMet == true)
-                {
-                    SystemLogicStart();
-                }
+                DisplayNextDialogueLine();
+            }
+            else if (isTyping)
+            {
+                // Skip typing effect and display full line immediately
+                StopAllCoroutines();
+                dialogueText.text = dialogueArray[dialogueIndex];
+                lineFullyDisplayed = true;
+                isTyping = false;
             }
         }
     }
@@ -57,24 +72,32 @@ public class Interact_Dialogue : MonoBehaviour
         {
             if (dialogueIndex < dialogueArray.Length)
             {
-                StartCoroutine(TypeDialogue(dialogueArray[dialogueIndex], colorHexArray[dialogueIndex]));
+                DisplayNextDialogueLine();
             }
             else
             {
                 EndDialogue();
             }
         }
+    }
+
+    private void DisplayNextDialogueLine()
+    {
+        if (dialogueIndex < dialogueArray.Length)
+        {
+            StartCoroutine(TypeDialogue(dialogueArray[dialogueIndex], colorHexArray[dialogueIndex]));
+            dialogueIndex++;
+        }
         else
         {
-            StopAllCoroutines();
-            dialogueText.text = dialogueArray[dialogueIndex];
-            isTyping = false;
+            EndDialogue();
         }
     }
 
     private IEnumerator TypeDialogue(string dialogue, string colorHex)
     {
         isTyping = true;
+        lineFullyDisplayed = false;
         dialogueText.text = "";
         dialogueText.color = HexToColor(colorHex);
 
@@ -83,9 +106,9 @@ public class Interact_Dialogue : MonoBehaviour
             dialogueText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }
-
+        dialogueInitialized = true;
         isTyping = false;
-        dialogueIndex++;
+        lineFullyDisplayed = true;
     }
 
     private Color HexToColor(string hex)
@@ -101,6 +124,6 @@ public class Interact_Dialogue : MonoBehaviour
         properties.HasBeenInteracted = true;
         dialogueIndex = 0;
         GameStateHandler.Instance.dialogueActive = false;
-
+        dialogueInitialized = false;
     }
 }
